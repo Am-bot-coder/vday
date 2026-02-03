@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Valentine’s Day</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    .gradient-background {
+      background: linear-gradient(
+        180deg,
+        rgba(255, 208, 229, 1) 0%,
+        rgba(255, 232, 242, 1) 36%,
+        rgba(255, 255, 255, 1) 100%
+      );
+    }
+
+    .bounce2 {
+      animation: bounce2 2s ease infinite;
+    }
+
+    @keyframes bounce2 {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-15px);
+      }
+      60% {
+        transform: translateY(-8px);
+      }
+    }
+  </style>
+</head>
+
+<body class="gradient-background">
+  <div class="flex items-center justify-center min-h-screen px-4">
+    <div class="flex flex-col items-center text-center">
+
+      <!-- Image -->
+      <img
+        id="imageDisplay"
+        src="./images/image1.gif"
+        alt="Cute kitten with flowers"
+        class="rounded-md w-[80vw] max-w-[300px] h-auto object-cover"
+      />
+
+      <!-- Question -->
+      <h2
+        id="valentineQuestion"
+        class="text-2xl sm:text-3xl md:text-4xl font-bold italic text-[#bd1e59] my-6"
+      >
+        Will you be my Valentine?
+      </h2>
+
+      <!-- Buttons -->
+      <div
+        id="responseButtons"
+        class="flex flex-wrap justify-center gap-4 pt-4"
+      >
+        <button
+          id="yesButton"
+          class="bounce2 bg-green-500 hover:bg-green-400 text-white rounded-md text-lg sm:text-xl font-medium min-h-12 min-w-[80px] px-6 py-2 transition"
+        >
+          Yes
+        </button>
+
+        <button
+          id="noButton"
+          class="bg-red-500 hover:bg-red-700 text-white rounded-md text-lg sm:text-xl font-medium min-h-12 min-w-[80px] px-6 py-2 transition"
+        >
+          No
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Script -->
+  <script type="module">
+    import confetti from "https://cdn.skypack.dev/canvas-confetti";
+
+    const yesButton = document.getElementById("yesButton");
+    const noButton = document.getElementById("noButton");
+    const imageDisplay = document.getElementById("imageDisplay");
+    const valentineQuestion = document.getElementById("valentineQuestion");
+    const responseButtons = document.getElementById("responseButtons");
+
+    let noClickCount = 0;
+    let buttonHeight = 48;
+    let buttonWidth = 80;
+    let fontSize = 20;
+
+    const MAX_BUTTON_SIZE = 220;
+    const MAX_FONT_SIZE = 40;
+
+    const imagePaths = [
+      "./images/image1.gif",
+      "./images/image2.gif",
+      "./images/image3.gif",
+      "./images/image4.gif",
+      "./images/image5.gif",
+      "./images/image6.gif",
+      "./images/image7.gif"
+    ];
+
+    const noTexts = [
+      "No",
+      "Are you sure?",
+      "Pookie please",
+      "Don't do this to me :(",
+      "You're breaking my heart",
+      "I'm gonna cry..."
+    ];
+
+    noButton.addEventListener("click", () => {
+      if (noClickCount < 5) {
+        noClickCount++;
+
+        imageDisplay.src = imagePaths[noClickCount];
+
+        buttonHeight = Math.min(buttonHeight + 30, MAX_BUTTON_SIZE);
+        buttonWidth = Math.min(buttonWidth + 30, MAX_BUTTON_SIZE);
+        fontSize = Math.min(fontSize + 6, MAX_FONT_SIZE);
+
+        yesButton.style.height = `${buttonHeight}px`;
+        yesButton.style.width = `${buttonWidth}px`;
+        yesButton.style.fontSize = `${fontSize}px`;
+
+        noButton.textContent = noTexts[noClickCount];
+      }
+    });
+
+    yesButton.addEventListener("click", () => {
+      imageDisplay.src = "./images/image7.gif";
+      valentineQuestion.textContent = "Yayyy!! 💖 :3";
+      responseButtons.style.display = "none";
+
+      confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    });
+  </script>
+</body>
+</html>
+
